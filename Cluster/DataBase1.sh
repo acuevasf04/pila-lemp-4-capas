@@ -48,8 +48,8 @@ mysql << 'EOSQL'
 CREATE DATABASE IF NOT EXISTS lamp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Crear usuario para la aplicacion
-CREATE USER IF NOT EXISTS 'antoniocuevas'@'%' IDENTIFIED BY '1234';
-GRANT ALL PRIVILEGES ON lamp_db.* TO 'antoniocuevas'@'%';
+CREATE USER IF NOT EXISTS 'antonio'@'%' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON lamp_db.* TO 'antonio'@'%';
 
 -- Usuario para health checks de HAProxy 
 CREATE USER IF NOT EXISTS 'haproxy'@'%' IDENTIFIED BY '';
@@ -62,9 +62,10 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 -- Verificar usuarios creados
-SELECT User, Host FROM mysql.user WHERE User IN ('antoniocuevas', 'haproxy', 'root');
+SELECT User, Host FROM mysql.user WHERE User IN ('antonio', 'haproxy', 'root');
 EOSQL
 
 #Habilitar MariaDB en el arranque
 systemctl enable mariadb
 mysql -e "SHOW STATUS LIKE 'wsrep_cluster_size';" 2>/dev/null
+
