@@ -166,6 +166,9 @@ listen stats
 Luego se usa el comando ```systemctl enable haproxy```, ```systemctl restart haproxy``` para iniciar el servicio, y luego ```systemctl status haproxy```para verificar que funciona correctamente.
 
 ### 3.5. SERVIDORES MARIADB
+Para la configuración las máquinas de MariaDB, primero se tiene usar el comando ```sudo apt update```para actualizar el repositorio de paquetes de Linux. Luego con el comando ```sudo apt install mariadb-server mariadb-client galera-4 rsync -y``` para la instalación del servicio. Una vez echo esto hay que parar el servicio de MariaDB con el comando ```sudo systemctl stop mariadb.services```.
+Luego hay que entrar en el directorio ```/etc/mysql/mariadb.conf.d/``` y en el archivo 60-galera.cnf, se escribe lo siguiente:
 
+<img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
 
-
+Luego con el comando ```sudo galera_new_cluster``` se crea el cluster nuevo, y se arrancan los servicio de MariaDB con ```sudo systemctl start mariadb.services```.
