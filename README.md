@@ -171,4 +171,32 @@ Luego hay que entrar en el directorio ```/etc/mysql/mariadb.conf.d/``` y en el a
 
 <img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
 
-Luego con el comando ```sudo galera_new_cluster``` se crea el cluster nuevo, y se arrancan los servicio de MariaDB con ```sudo systemctl start mariadb.services```.
+Luego con el comando ```sudo galera_new_cluster``` se crea el cluster nuevo, y se arrancan los servicio de MariaDB con ```sudo systemctl start mariadb.services```. Esta configuración hay que repetirla en el otro servidor de MariaDB.
+
+Al final, con este script se creará una base de datos para verificar que el cluster funciona correctamente:
+
+```
+mysql << 'EOSQL'
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS lamp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Crear usuario para la aplicacion
+CREATE USER IF NOT EXISTS 'antonio'@'%' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON lamp_db.* TO 'antonio'@'%';
+
+-- Usuario para health checks de HAProxy 
+CREATE USER IF NOT EXISTS 'haproxy'@'%' IDENTIFIED BY '';
+GRANT USAGE ON *.* TO 'haproxy'@'%';
+
+-- Crear usuario root remoto para administracion
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+-- Verificar usuarios creados
+SELECT User, Host FROM mysql.user WHERE User IN ('antonio', 'haproxy', 'root');
+EOSQL
+
+```
+
