@@ -55,7 +55,7 @@ cat > /var/www/html/webapp/config.php << 'EOF'
 // Credenciales de base de datos
 define('DB_HOST', '192.168.30.10');
 define('DB_NAME', 'lamp_db');
-define('DB_USER', 'fabio');
+define('DB_USER', 'antonio');
 define('DB_PASS', '1234');
 
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -94,3 +94,4 @@ echo "Contenido del directorio webapp:"
 ls -lh /var/www/html/webapp/
 
 echo "Configuración de NFS completada correctamente"
+
