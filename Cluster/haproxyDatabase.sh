@@ -44,8 +44,8 @@ backend mariadb_backend
     # Health check mas permisivo
     tcp-check connect
     
-    server db1antonio 192.168.40.11:3306 check inter 5s rise 2 fall 3
-    server db2antonio 192.168.40.12:3306 check inter 5s rise 2 fall 3
+    server database1antonio 192.168.40.11:3306 check inter 5s rise 2 fall 3
+    server database2antonio 192.168.40.12:3306 check inter 5s rise 2 fall 3
 
 # Estadisticas de HAProxy
 listen stats
@@ -69,4 +69,5 @@ sleep 5
 
 #Verificar estado
 systemctl status haproxy --no-pager
+
 
