@@ -122,6 +122,8 @@ ls -lh /var/www/html/webapp/
 ### 3.4. HAPROXY
 
 Para la configuración del balanceador HaProxy, primero se tiene usar el comando ```sudo apt update```para actualizar el repositorio de paquetes de Linux. Luego con el comando ```sudo apt install haproxy -y``` para la instalación del servicio.
+Luego hay que acceder al directorio ```/etc/haproxy/``` donde se encontrará el archivo de configuración del balanceador. Para entrar, solo hay que escribir el comando ```sudo nano haproxy.cfg```y escribir lo siguiente:
+
 
 
 
