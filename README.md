@@ -26,6 +26,7 @@ La estructura del CMS de 4 capas es el siguiente, 1 balanceador de carga de con 
 Para la configuración del balanceador, primero hay que actualizar el repositorio de paquetes de Linux, para ello hay que usar el comando ```sudo apt update```, luego se instala el servicio de nginx con el comando ```sudo apt install -y nginx```.
 Para entrar en los archivos de configuración, hay que entrar en la ruta ```/etc/nginx/sites-avalibles``` y desde ahí hacer una copia de la configuración por defecto (archivo default) con el comando ```sudo cp default cluster```. Ahora se entra en el archivo nuevo creado, y poner lo mismo de la imagen:
 <img width="801" height="814" alt="imagen" src="https://github.com/user-attachments/assets/e76195d8-84d4-4a46-a233-49f8432b13c1" />
+
 Con los comandos ```ln -sf /etc/nginx/sites-available/webapp /etc/nginx/sites-enabled/```y ```rm -f /etc/nginx/sites-enabled/default```se selecciona la configuración que se quiere enseñar y borrar la que está por defecto.
 
 ### 3.2. SERVIDORES BACKEND
@@ -38,4 +39,15 @@ Esto se repetirá 2 veces ya que la idea es que los servidores hagan lo mismo.
 
 ### 3.3. SERVIDOR NFS
 Para el servidor NFS, se hará primero el comando ```sudo apt update```para actualizar el repositorio de paquetes de Linux. Luego con el comando ```sudo apt install git mariadb-client nfs-kernel-server``` se instalará un cliente de MariaDB, el servicio de NFS y una conexión con git hub para la descarga de un archivo php. Luego, con el comando ```sudo apt install php-fpm php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip netcat-openbsd```se instalará todas las herramientas para el interprete de php.
-A continuación, se creará la carpeta compartida con las máquinas backend para subir la aplicación web a la vez.
+A continuación, se creará la carpeta compartida con las máquinas backend para subir la aplicación web a la vez. Con los comandos ```sudo mkdir -p /var/www/html/webapp```, ```chown -R www-data:www-data /var/www/html/webapp```y ```chmod -R 755 /var/www/html/webapp```para la creación, asignar dueño y grupo y asignar permisos a la carpeta que se va a tener sincronizada con los servidores backend.
+
+Por último, para acabar con el servicio de NFS, se tiene que entrar en el archivo de configuración con ```sudo nano /etc/exports/``` y aplicar el siguiente código:
+```
+/var/www/html/webapp 192.168.20.11(rw,sync,no_subtree_check,no_root_squash)
+/var/www/html/webapp 192.168.20.12(rw,sync,no_subtree_check,no_root_squash)
+
+```
+Siendo las direcciones IP las de los servidores Backend.
+
+
+
